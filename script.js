@@ -35,6 +35,19 @@ document.getElementById("rotate").onclick = function(){
         
     }
 
+    if (dice !== 1) {
+        roundScore += dice;
+        document.querySelector(".current-"+current).textContent = roundScore;
+    }
+
+    else{
+        roundScore = 0;
+        document.querySelector(".current-"+current).textContent = roundScore;
+        document.querySelector(".player-"+current).classList.toggle("active");
+        current = 1 - current;
+        document.querySelector(".player-"+current).classList.toggle("active");
+    }
+
     //YOUR CODE HERE
 
     //Here are the rules of pig game
@@ -45,16 +58,30 @@ document.getElementById("rotate").onclick = function(){
     //hint: toggle seems cool, don't you think? Only applies if user lost turn
     //hint # 2: Current user is either 0 or 1
 
-    document.querySelector(".player-0").classList.toggle("active");
-    document.querySelector(".player-1").classList.toggle("active");
-    document.querySelector(".current-"+current).textContent = dice;
-    current = 1 - current;
+
  }
 }
 
 
 document.getElementById("hold").onclick = function(){
 
+  if(gameRunning){
+    document.querySelector(".current-"+current).textContent = roundScore;
+    score[current] += roundScore;
+    document.querySelector(".score-"+current).textContent = score[current];
+    roundScore = 0;
+    document.querySelector(".current-"+current).textContent = roundScore
+
+    if (score[current] >= 100) {
+    gameRunning = false;
+    alert("Player " + (current + 1) + " wins!");
+    }
+
+    else{
+    document.querySelector(".player-"+current).classList.toggle("active");
+    current = 1 - current;
+    document.querySelector(".player-"+current).classList.toggle("active");
+    }
   //Your code here
 
   //As long as the game is running, the score of the CURRENT USER should be accumulated if the usert holds
@@ -62,7 +89,7 @@ document.getElementById("hold").onclick = function(){
   //current user wins if his/her/their score is equal or more than 100. Afther this, game should be stopped
 
  }
-
+}
 
 document.querySelector("#new").addEventListener('click',game);
 
